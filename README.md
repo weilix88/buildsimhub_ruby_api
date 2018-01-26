@@ -23,15 +23,15 @@ We appreciate your continued support, thank you!
 
 ## Install Package
 Simply clone this repository and place in any folder you wish to build your application on. Examples:
-![picture alt](https://imgur.com/x60rk2O.png)
+![picture alt](https://imgur.com/pagylew.png)
 
 ## Setup environment
-After you downloaded the whole package, the first you need to do is to reconfigure your user API in the [info.config](https://github.com/weilix88/buildsimhub_python_api/blob/master/BuildSimHubAPI/info.config) file.
+After you downloaded the whole package, the first you need to do is to reconfigure your user API in the [info.config](https://github.com/weilix88/buildsimhub_ruby_api/blob/master/BuildSimHubAPI/info.config) file.
 You can find the API key associate with your account under the profile page:
 
 ![picture alt](https://imgur.com/gHehDiN.png)
 
-Simple edit the [info.config](https://github.com/weilix88/buildsimhub_python_api/blob/master/BuildSimHubAPI/info.config)
+Simple edit the [info.config](https://github.com/weilix88/buildsimhub_ruby_api/tree/master/BuildSimHubAPI/info.config)
 `user_api_key:[YOUR_API_KEY]`
 
 <a name="quick-start"></a>
@@ -39,12 +39,12 @@ Simple edit the [info.config](https://github.com/weilix88/buildsimhub_python_api
 # Quick Start
 
 ## Run simulation
-The following is the minimum needed code to initiate a regular simulation with the [helpers/simulationJob](https://github.com/weilix88/buildsimhub_python_api/tree/master/BuildSimHubAPI/helpers)
+The following is the minimum needed code to initiate a regular simulation with the [helpers/simulationJob](https://github.com/weilix88/buildsimhub_ruby_api/blob/master/BuildSimHubAPI/helper/simulationJob.rb)
 
 ### With SimulationJob Class
-```python
-from BuildSimHubAPI import buildsimhub
-bsh = buildsimhub.BuildSimHubAPIClient()
+```ruby
+require_relative 'BuildSimHubAPI/BuildSimHubAPI'
+api = BuildSimHubAPI.new
 
 #this key can be found under your project folder
 folder_key="0ade3a46-4d07-4b99-907f-0cfeece321072"
@@ -52,21 +52,21 @@ folder_key="0ade3a46-4d07-4b99-907f-0cfeece321072"
 #absolute directory to the energyplus model
 file_dir = "/Users/weilixu/Desktop/5ZoneAirCooled.idf"
 
-newSJ = bsh.newSimulationJob(folder_key)
+newSj = api.newSimulationJob(folder_key)
 response = newSj.createModel(file_dir)
 
 #print success means the simulation job has successfully
 #started a simulation, if there is an error, then
 #you will receive the correspondent error message
-print (response)
+print response
 ```
-The `BuildSimHubAPIClient` creates a [portal object](https://github.com/weilix88/buildsimhub_python_api/blob/master/BuildSimHubAPI/buildsimhub.py) that manages simulation workflow.
-From this object, you can initiate a [simulationJob](https://github.com/weilix88/buildsimhub_python_api/blob/master/BuildSimHubAPI/helpers/simulationJob.py) to conduct a cloud simulation. Call `createModel()` method with parameters can start the cloud simulation.
+The `BuildSimHubAPIClient` creates a [portal object](https://github.com/weilix88/buildsimhub_ruby_api/blob/master/BuildSimHubAPI/BuildSimHubAPI.rb) that manages simulation workflow.
+From this object, you can initiate a [simulationJob](https://github.com/weilix88/buildsimhub_ruby_api/blob/master/BuildSimHubAPI/helper/simulationJob.rb) to conduct a cloud simulation. Call `createModel()` method with parameters can start the cloud simulation.
 
 ### Track Cloud simulation progress
-```python
-from BuildSimHubAPI import buildsimhub
-bsh = buildsimhub.BuildSimHubAPIClient()
+```ruby
+require_relative 'BuildSimHubAPI/BuildSimHubAPI'
+api = BuildSimHubAPI.new
 
 #this key can be found under your project folder
 folder_key="0ade3a46-4d07-4b99-907f-0cfeece321072"
@@ -74,21 +74,23 @@ folder_key="0ade3a46-4d07-4b99-907f-0cfeece321072"
 #absolute directory to the energyplus model
 file_dir = "/Users/weilixu/Desktop/5ZoneAirCooled.idf"
 
-newSJ = bsh.newSimulationJob(folder_key)
+newSj = api.newSimulationJob(folder_key)
 response = newSj.createModel(file_dir)
 
 ######BELOW ARE THE CODE TO TRACK SIMULATION#########
-if(response == 'success'):
-  while newSJ.trackSimulation():
-    print (newSJ.trackStatus)
-    time.sleep(5)
+if(response == 'success')
+    while newSj.trackSimulation do
+        print newSj.getTrackStatus
+        sleep 10
+    end
+end
 ```
-As mentioned previously, [BuildSimHubAPIClient](https://github.com/weilix88/buildsimhub_python_api/blob/master/BuildSimHubAPI/buildsimhub.py) manages the entire workflow of the simulation. So once a cloud simulation is successfully started by the [SimulationJob](https://github.com/weilix88/buildsimhub_python_api/blob/master/BuildSimHubAPI/helpers/simulationJob.py) class, you can simply call `trackSimulation()` function to receive the simulation progress.
+As mentioned previously, [BuildSimHubAPIClient](https://github.com/weilix88/buildsimhub_ruby_api/blob/master/BuildSimHubAPI/BuildSimHubAPI.rb) manages the entire workflow of the simulation. So once a cloud simulation is successfully started by the [SimulationJob](https://github.com/weilix88/buildsimhub_ruby_api/blob/master/BuildSimHubAPI/helper/simulationJob.rb) class, you can simply call `trackSimulation()` function to receive the simulation progress.
 
 ### Retrieve Cloud simulation results
-```python
-from BuildSimHubAPI import buildsimhub
-bsh = buildsimhub.BuildSimHubAPIClient()
+```ruby
+require_relative 'BuildSimHubAPI/BuildSimHubAPI'
+api = BuildSimHubAPI.new
 
 #this key can be found under your project folder
 folder_key="0ade3a46-4d07-4b99-907f-0cfeece321072"
@@ -96,17 +98,20 @@ folder_key="0ade3a46-4d07-4b99-907f-0cfeece321072"
 #absolute directory to the energyplus model
 file_dir = "/Users/weilixu/Desktop/5ZoneAirCooled.idf"
 
-newSJ = bsh.newSimulationJob(folder_key)
+newSj = api.newSimulationJob(folder_key)
 response = newSj.createModel(file_dir)
 
-if(response == 'success'):
-  while newSJ.trackSimulation():
-    print (newSJ.trackStatus)
-    time.sleep(5)
-  
-  ######BELOW ARE THE CODE TO RETRIEVE SIMULATION RESULTS#########
-  response = newSJ.getSimulationResults('html')
-  print(response)
+######BELOW ARE THE CODE TO TRACK SIMULATION#########
+if(response == 'success')
+    while newSj.trackSimulation do
+        print newSj.getTrackStatus
+        sleep 10
+    end
+    
+    response = newSj.getSimulationResult("err")
+else
+    print response
+end
 ```
 If the Job is completed, you can get results by calling `getSimulationResults(type)` function.
 
@@ -114,18 +119,18 @@ If the Job is completed, you can get results by calling `getSimulationResults(ty
 
 #Object and Functions
 ## SimulationJob
-The easiest way to generate a [SimulationJob](https://github.com/weilix88/buildsimhub_python_api/blob/master/BuildSimHubAPI/helpers/simulationJob.py) class is calling the `newSimulationJob()` method in the [BuildSimHubAPIClient](https://github.com/weilix88/buildsimhub_python_api/blob/master/BuildSimHubAPI/buildsimhub.py).
-Nevertheless, you have to provide a `folder_key` in order to create a new [SimulationJob](https://github.com/weilix88/buildsimhub_python_api/blob/master/BuildSimHubAPI/helpers/simulationJob.py) instance.
+The easiest way to generate a [SimulationJob](https://github.com/weilix88/buildsimhub_ruby_api/blob/master/BuildSimHubAPI/helper/simulationJob.rb) class is calling the `newSimulationJob()` method in the [BuildSimHubAPIClient](https://github.com/weilix88/buildsimhub_ruby_api/blob/master/BuildSimHubAPI/BuildSimHubAPI.rb).
+Nevertheless, you have to provide a `folder_key` in order to create a new [SimulationJob](https://github.com/weilix88/buildsimhub_ruby_api/blob/master/BuildSimHubAPI/helper/simulationJob.rb) instance.
 
 The `folder_key` can be found under each folder of your project
 ![picture alt](https://imgur.com/jNrghIZ.png)
 
 ## simulationType
-[SimulationType](https://github.com/weilix88/buildsimhub_python_api/blob/master/BuildSimHubAPI/helpers/simulationType.py) class helps you configure the cloud simulation. There are two simulation types: `regular` and `fast`. Also, ou can increase the number of agent by calling the `increaseAgents()` function.
-```python
-simulationType = bsh.getSimulationType()
-numOfAgents = simulationType.increaseAgents();
-print (numOfAgents)
+[SimulationType](https://github.com/weilix88/buildsimhub_ruby_api/blob/master/BuildSimHubAPI/helper/simulationType.rb) class helps you configure the cloud simulation. There are two simulation types: `regular` and `fast`. Also, ou can increase the number of agent by calling the `increaseAgents()` function.
+```ruby
+simulationType = bsh.getSimulationType
+numOfAgents = simulationType.increaseAgents;
+print numOfAgents
 ```
 It should be noted that the maximum number of agents working on one simulation job is limited to 12, and the more agents you assigned to one simulation job, the faster your simulation can be. You can also call `resetAgent()` function to reset the number of agent to 2.
 
@@ -135,9 +140,9 @@ A simulation job manages one type of cloud simulation. It contains three main fu
 ### createdModel
 The `createModel()` function has in total 4 parameters.
 1. `file_dir` (required): the absolute local directory of your EnergyPlus / OpenStudio model (e.g., "/Users/weilixu/Desktop/5ZoneAirCooled.idf")
-2. `comment`(optional): The description of the model version that will be uploaded to your folder. The default message is `Upload through Python API`
+2. `comment`(optional): The description of the model version that will be uploaded to your folder. The default message is `Upload through Ruby API`
 3. `simulationType` (optional): The simulation Type should be generated from [SimulationType](https://github.com/weilix88/buildsimhub_python_api/blob/master/BuildSimHubAPI/helpers/simulationType.py) class. This class manages the simulation type as well as how many agents you want to assign to this simulation job. Default is `regular` simulation which uses 1 agent to do the cloud simulation.
-4. `agent` (optional): The agent number is a property of [SimulationType](https://github.com/weilix88/buildsimhub_python_api/blob/master/BuildSimHubAPI/helpers/simulationType.py) class. If fast simulation is selected, then the default of agent will be 2.
+4. `agent` (optional): The agent number is a property of [SimulationType](https://github.com/weilix88/buildsimhub_ruby_api/blob/master/BuildSimHubAPI/helper/simulationType.rb) class. If fast simulation is selected, then the default of agent will be 2.
 
 This method returns two types of information:
 If sucess: `success`
@@ -147,20 +152,20 @@ or error message states what was wrong in your request.
 The `trackSimulation()` function does not require any parameters. However, it is required that a successful cloud simulation is created and running on the cloud. Otherwise, you will receive this message by calling this function:
 `No simulation is running or completed in this Job - please start simulation using createModel method.`
 If there is a simulation running on the cloud for this simulationJob, then, this function will return `true` and you can retrieve the simulation status by get the class parameter `trackStatus`. Example code is below:
-```python
-if(newSimulationJob.trackSimulation()):
-  print(newSimulationJob.trackStatus)
+```ruby
+if(newSimulationJob.trackSimulation):
+  print newSimulationJob.trackStatus
 ```
 ### getSimulationResults
 The `getSimulationResults(type)` function requires 1 parameter, the result type. Currently, you can retrieve three types of results: the error file (`err`), eso file (`eso`) and html file (`html`), generated from EnergyPlus simulation.
 
-```python
+```ruby
 response = newSimulationJob.getSimulationResults('err')
-print (response)
+print response
 ```
 <a name="roadmap"></a>
 # Roadmap
-1. Certainly, the first thing is to get the project into Pip to enable `pip install` command.
+1. Certainly, the first thing is to get the project into GEM.
 2. We are also working on an HTML compiler, which let users to retrieve any values from the html output
 3. If you are interested in the future direction of this project, please take a look at our open [issues](https://github.com/weilix88/buildsimhub_python_api/issues) and [pull requests](https://github.com/weilix88/buildsimhub_python_api/pulls). We would love to hear your feedback.
 
@@ -168,9 +173,9 @@ print (response)
 <a name="about"></a>
 # About
 
-buildsimhub-python is guided and supported by the BuildSimHub [Developer Experience Team](mailto:haopeng.wang@buildsimhub.net).
+buildsimhub-ruby is guided and supported by the BuildSimHub [Developer Experience Team](mailto:haopeng.wang@buildsimhub.net).
 
-buildsimhub-python is maintained and funded by the BuildSimHub, Inc. The names and logos for buildsimhub-python are trademarks of BuildSimHub, Inc.
+buildsimhub-ruby is maintained and funded by the BuildSimHub, Inc. The names and logos for buildsimhub-python are trademarks of BuildSimHub, Inc.
 
 <a name="license"></a>
 # License
