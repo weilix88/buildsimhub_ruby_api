@@ -1,7 +1,7 @@
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE.txt)
 [![Twitter Follow](https://img.shields.io/twitter/follow/sendgrid.svg?style=social&label=Follow)](https://twitter.com/buildsimhub)
 
-**This library allows you to quickly and easily use the BuildSimHub Web API v1 via Python.**
+**This library allows you to quickly and easily use the BuildSimHub Web API v1 via Ruby.**
 This library represents the beginning of the Cloud Simulation function on BuildSimHub. Please browse the rest of this README for further detail.
 We appreciate your continued support, thank you!
 
@@ -19,7 +19,7 @@ We appreciate your continued support, thank you!
 
 ## Prerequisites
 - The BuildSimHub service, starting at the [free level](https://my.buildsim.io/register.html)
-- Python version 2.6, 2.7, 3.4, 3.5 or 3.6
+- Ruby version >= 2.2
 
 ## Install Package
 Simply clone this repository and place in any folder you wish to build your application on. Examples:
@@ -141,7 +141,7 @@ A simulation job manages one type of cloud simulation. It contains three main fu
 The `createModel()` function has in total 4 parameters.
 1. `file_dir` (required): the absolute local directory of your EnergyPlus / OpenStudio model (e.g., "/Users/weilixu/Desktop/5ZoneAirCooled.idf")
 2. `comment`(optional): The description of the model version that will be uploaded to your folder. The default message is `Upload through Ruby API`
-3. `simulationType` (optional): The simulation Type should be generated from [SimulationType](https://github.com/weilix88/buildsimhub_python_api/blob/master/BuildSimHubAPI/helpers/simulationType.py) class. This class manages the simulation type as well as how many agents you want to assign to this simulation job. Default is `regular` simulation which uses 1 agent to do the cloud simulation.
+3. `simulationType` (optional): The simulation Type should be generated from [SimulationType](https://github.com/weilix88/buildsimhub_ruby_api/blob/master/BuildSimHubAPI/helper/simulationType.rb) class. This class manages the simulation type as well as how many agents you want to assign to this simulation job. Default is `regular` simulation which uses 1 agent to do the cloud simulation.
 4. `agent` (optional): The agent number is a property of [SimulationType](https://github.com/weilix88/buildsimhub_ruby_api/blob/master/BuildSimHubAPI/helper/simulationType.rb) class. If fast simulation is selected, then the default of agent will be 2.
 
 This method returns two types of information:
@@ -167,7 +167,7 @@ print response
 # Roadmap
 1. Certainly, the first thing is to get the project into GEM.
 2. We are also working on an HTML compiler, which let users to retrieve any values from the html output
-3. If you are interested in the future direction of this project, please take a look at our open [issues](https://github.com/weilix88/buildsimhub_python_api/issues) and [pull requests](https://github.com/weilix88/buildsimhub_python_api/pulls). We would love to hear your feedback.
+3. If you are interested in the future direction of this project, please take a look at our open [issues](https://github.com/weilix88/buildsimhub_ruby_api/issues) and [pull requests](https://github.com/weilix88/buildsimhub_ruby_api/pulls). We would love to hear your feedback.
 
 
 <a name="about"></a>
@@ -175,7 +175,7 @@ print response
 
 buildsimhub-ruby is guided and supported by the BuildSimHub [Developer Experience Team](mailto:haopeng.wang@buildsimhub.net).
 
-buildsimhub-ruby is maintained and funded by the BuildSimHub, Inc. The names and logos for buildsimhub-python are trademarks of BuildSimHub, Inc.
+buildsimhub-ruby is maintained and funded by the BuildSimHub, Inc. The names and logos for buildsimhub-ruby are trademarks of BuildSimHub, Inc.
 
 <a name="license"></a>
 # License
